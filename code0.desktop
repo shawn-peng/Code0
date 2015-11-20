@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Example
+Icon=code0
+StartupNotify=true
+Exec=/home/Shawn/workspace/gtktest.c
