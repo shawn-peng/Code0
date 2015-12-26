@@ -54,6 +54,10 @@ src_files=`find_files_with_exts "${EXT}"`
 		echo Replacing \"$from\" with \"$to\"
 
 		#./rename.sed 
+		for file in $src_files
+		do
+			sed -ie "s/$from/$to/g" $file
+		done
 
 		read from to
 	done
