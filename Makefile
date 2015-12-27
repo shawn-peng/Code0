@@ -1,21 +1,29 @@
 
 CROSS:=x86_64-pc-msys-
-CC:=gcc
+CC:=g++
 PKG-CONFIG:=$(CROSS)pkg-config
 GTK_VERSION:=3.0
 
-CFLAGS:=`$(PKG-CONFIG) --cflags gtk+-$(GTK_VERSION)` 
-LDFLAGS:=`$(PKG-CONFIG) --libs gtk+-$(GTK_VERSION)` -Wl,-rpath=./lib
+CFLAGS:=`$(PKG-CONFIG) --cflags gtkmm-$(GTK_VERSION)` -std=c++11
+LDFLAGS:=`$(PKG-CONFIG) --libs gtkmm-$(GTK_VERSION)` -Wl,-rpath=./lib
 
-SRCS:=$(shell find -name "*.c")
+SRCS:=$(shell find -name "*.cpp")
 WINRES:=$(shell find -name "*.res")
 RES:=$(shell find -name "*.ui" -or -name "*.xml" -or -name "*.rc")
 
-all: gtktest
+all: code0
 
-gtktest: $(SRCS) $(WINRES)
-	gcc -o $@ $^ $(CFLAGS) $(LDFLAGS)
+GENERATED:=resources.cpp
 
-resources.c: code0.gresource.xml $(RES)
-	glib-compile-resources.exe code0.gresource.xml --target=resources.c --generate-source
+SRCS+=$(GENERATED)
+SRCS:=$(sort $(SRCS))
+
+code0: $(SRCS) $(WINRES)
+	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
+
+resources.cpp: code0.gresource.xml $(RES)
+	glib-compile-resources.exe $(firstword $^) --target=$@ --generate-source
+	
+clean:
+	rm -f *.o resources.cpp code0
 
