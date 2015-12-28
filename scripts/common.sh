@@ -27,3 +27,8 @@ function find_files_with_exts() {
 	echo $files
 }
 
+export SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+function get_scripts_dir_path() {
+	echo $SCRIPTS_DIR
+}
