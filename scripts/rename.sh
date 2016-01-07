@@ -1,9 +1,13 @@
 #!/bin/bash
 
-. ./path
+#. ./path
 
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+pushd $DIR > /dev/null
 . ./common.sh
 
+PROJ_DIR=$SCRIPTS_DIR/../
 echo $PROJ_DIR
 RULE_FILE="rename.rules"
 
@@ -11,13 +15,13 @@ EXT="h c cpp"
 
 parse_argument "$@"
 
-if [[ ! -f "${RULE_FILE}" ]]
+if [[ ! -f "./${RULE_FILE}" ]]
 then
 	echo "rule file not exists."
 	exit
 fi
 
-sed -i -e "s/\r//g" ${RULE_FILE}
+sed -i -e "s/\r//g" ./${RULE_FILE}
 
 src_files=`find_files_with_exts "${EXT}"`
 #echo $src_files
@@ -36,4 +40,6 @@ src_files=`find_files_with_exts "${EXT}"`
 
 		read from to
 	done
-} < "$RULE_FILE"
+} < "./$RULE_FILE"
+
+popd > /dev/null
