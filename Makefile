@@ -4,7 +4,7 @@ CC:=g++
 PKG-CONFIG:=$(CROSS)pkg-config
 GTK_VERSION:=3.0
 
-CFLAGS:=`$(PKG-CONFIG) --cflags gtkmm-$(GTK_VERSION)` -std=c++11
+CFLAGS:=`$(PKG-CONFIG) --cflags gtkmm-$(GTK_VERSION)` -std=c++11 -g3
 LDFLAGS:=`$(PKG-CONFIG) --libs gtkmm-$(GTK_VERSION)` -Wl,-rpath=./lib
 
 SRCS:=$(shell find -name "*.cpp")
